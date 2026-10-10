@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programming by Chat · ASE 2026</title>
+  <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/slides.css">
+  <link rel="stylesheet" href="css/content.css">
+</head>
+<body>
+
+<aside class="rail">
+  <div class="rail-brand">
+    <img class="ase" src="figures/logos/ase-transparent.png" alt="ASE 2026">
+    <img class="lab" src="figures/logos/sandwich.svg" alt="SaNDwich Lab">
+  </div>
+  <nav class="rail-nav"></nav>
+  <div class="rail-sep"></div>
+  <div class="rail-me">
+    <div class="avatar">NT<img src="figures/headshot.jpg" alt="" onerror="this.remove()"></div>
+    <div>
+      <div class="who">Ningzhi Tang</div>
+      <div class="sub">ntang@nd.edu</div>
+    </div>
+  </div>
+</aside>
+
+<main class="deck">
+
+<!-- ============================================================ TITLE -->
+<section class="slide" data-title="Title" data-group="Introduction">
+<div class="frame"><div class="stage s-title">
+
+  <img class="ase-logo" src="figures/logos/ase-transparent.png" alt="ASE 2026 Munich">
+
+  <div class="title-block">
+    <h1>Programming by <span class="gold-word">Chat</span></h1>
+    <p class="subtitle">A Large-Scale Behavioral Analysis of <b class="nw">11,579 Real-World</b> AI-Assisted IDE Sessions</p>
+    <p class="authors">
+      <b>Ningzhi Tang*</b>, Chaoran Chen*, Zihan Fang, Gelei Xu, Maria Dhakal,<br>
+      Yiyu Shi, Collin McMillan, Yu Huang, Toby Jia-Jun Li
+    </p>
+    <p class="equal">* Equal contribution</p>
+  </div>
+
+  <!-- faint backdrop: the paper's illustrative session, message → intent -->
+  <div class="backdrop" aria-hidden="true">
+    <div class="msg"><span>The login button should redirect to <code>/dashboard</code> after auth</span><i class="intent">New Implementation</i></div>
+    <div class="msg"><span>It compiles but clicking login does nothing, no redirect</span><i class="intent">Symptom Description</i></div>
+    <div class="msg"><span>Still not working.<br><code>Error: useRouter must be used within RouterProvider</code></span><i class="intent">Error Persistence</i><i class="intent">Log Paste</i></div>
+    <div class="msg"><span>Test it yourself to make sure it works</span><i class="intent">Runtime Inspection</i><i class="intent">Toolchain Operation</i></div>
+  </div>
+
+  <div class="logos">
+    <img src="figures/logos/notre-dame.png" alt="University of Notre Dame" style="height:76px">
+    <img src="figures/logos/vanderbilt.png" alt="Vanderbilt University" style="height:70px">
+    <span class="grow"></span>
+    <img class="logo-round" src="figures/logos/sandwich.svg" alt="SaNDwich Lab" style="height:108px">
+  </div>
+
+</div></div>
+</section>
+
+<!-- ============================================================ MOTIVATION -->
+<section class="slide" data-title="Motivation" data-group="Introduction">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">Motivation</div>
+  <h2 class="title">From autocomplete to conversational programming in the IDE</h2>
+  <p class="lead">IDE-integrated assistants such as GitHub Copilot and Cursor have evolved beyond autocomplete into <b>multi-turn conversational systems</b>.</p>
+
+  <div class="body row s-motivation">
+    <div class="col grow">
+      <!-- mock IDE: editor + agent chat panel -->
+      <div class="ide" data-r>
+        <div class="ide-bar"><i></i><i></i><i></i><span>login.tsx — my-app</span></div>
+        <div class="ide-main">
+          <div class="ide-tree">
+            <div><i class="fa-regular fa-folder-open"></i> src</div>
+            <div class="on"><i class="fa-regular fa-file-code"></i> login.tsx</div>
+            <div><i class="fa-regular fa-file-code"></i> App.tsx</div>
+            <div><i class="fa-regular fa-file-code"></i> router.ts</div>
+            <div><i class="fa-regular fa-file-lines"></i> TODO.md</div>
+          </div>
+          <pre class="ide-code"><span class="ln">12</span><span class="k">export function</span> <span class="f">Login</span>() {
+<span class="ln">13</span>  <span class="k">const</span> router = <span class="f">useRouter</span>();
+<span class="ln">14</span>  <span class="k">async function</span> <span class="f">onLogin</span>() {
+<span class="ln">15</span>    <span class="k">await</span> auth.<span class="f">signIn</span>();
+<span class="add"><span class="ln">16</span>    router.<span class="f">push</span>(<span class="s">"/dashboard"</span>);</span><span class="ln">17</span>  }
+<span class="ln">18</span>  <span class="k">return</span> &lt;<span class="t">Button</span> <span class="a">onClick</span>={onLogin} /&gt;;
+<span class="ln">19</span>}</pre>
+          <div class="ide-chat">
+            <div class="bubble">The login button should redirect to <code>/dashboard</code> after auth</div>
+            <div class="act"><i class="fa-solid fa-magnifying-glass"></i> Read <b>login.tsx</b>, <b>router.ts</b></div>
+            <div class="act"><i class="fa-solid fa-pen"></i> Edited 2 files</div>
+            <div class="act"><i class="fa-solid fa-terminal"></i> Ran <b>npm run dev</b></div>
+            <div class="bubble">It compiles but clicking login does nothing</div>
+          </div>
+        </div>
+      </div>
+      <div class="caps" data-r style="--d:1">
+        <span class="pill"><i class="fa-solid fa-folder-tree"></i> project context</span>
+        <span class="pill"><i class="fa-solid fa-copy"></i> multi-file editing</span>
+        <span class="pill"><i class="fa-solid fa-terminal"></i> terminal execution</span>
+        <span class="pill"><i class="fa-solid fa-gauge-high"></i> runtime inspection</span>
+      </div>
+      <p class="say" data-r style="--d:2">Rather than writing code directly, developers increasingly <span class="mark">express intent and iteratively steer AI-generated outputs through dialogue</span>.</p>
+    </div>
+
+    <div class="col side">
+      <img class="tweet" src="figures/vibe-coding-tweet.png" alt="Andrej Karpathy on vibe coding, Feb 2, 2025" data-r style="--d:3">
+      <div class="yc" data-r style="--d:4">
+        <div class="stat">95<small>%</small></div>
+        <div>
+          <div class="small">AI-generated: some codebases in YC's W25 cohort</div>
+          <div class="src">TechCrunch, March 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ GAP -->
+<section class="slide" data-title="The Evidence Gap" data-group="Introduction">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">The gap</div>
+  <h2 class="title">How do developers <em>actually</em> converse with coding agents?</h2>
+  <p class="lead">Despite widespread adoption, empirical evidence is constrained in two complementary ways.</p>
+
+  <div class="body row s-gap">
+    <div class="col grow">
+      <div class="card" data-r>
+        <h3><span class="num">1</span> Lacking either scale or ecological validity</h3>
+        <div class="src-rows">
+          <div><i class="fa-brands fa-youtube"></i><b>Video studies</b><span>Performative setting, audience effects; the largest covers only <b>254 prompts</b></span></div>
+          <div><i class="fa-solid fa-flask"></i><b>User studies</b><span>Researcher-defined tasks on unfamiliar codebases</span></div>
+          <div><i class="fa-solid fa-comments"></i><b>Interviews</b><span>Recall and self-presentation bias</span></div>
+        </div>
+      </div>
+      <div class="card" data-r style="--d:1">
+        <h3><span class="num gold">2</span> Large-scale, but browser-based chat</h3>
+        <div class="src-rows">
+          <div><i class="fa-solid fa-link"></i><b>DevGPT</b><span>Developer-shared ChatGPT links from GitHub</span></div>
+          <div><i class="fa-solid fa-message"></i><b>CodeChat</b><span>Developer-LLM conversations from WildChat</span></div>
+        </div>
+        <p class="note">Not IDE-native: no repository context, tool access, or direct editing.</p>
+      </div>
+    </div>
+
+    <!-- 2 × 2: setting × scale -->
+    <div class="quad" data-r style="--d:2">
+      <div class="q-ax-y">Scale <i class="fa-solid fa-arrow-right"></i></div>
+      <div class="q-ax-x">Browser chat <i class="fa-solid fa-arrow-right"></i> IDE-native</div>
+      <div class="q-grid">
+        <div class="cell"><span class="dot">DevGPT</span><span class="dot">CodeChat</span></div>
+        <div class="cell target">
+          <div class="star"><i class="fa-solid fa-star"></i> This work</div>
+          <div class="t">11,579 real-world sessions, in the wild</div>
+        </div>
+        <div class="cell"></div>
+        <div class="cell"><span class="dot">Video studies</span><span class="dot">User studies</span><span class="dot">Interviews</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ SPECSTORY -->
+<section class="slide" data-title="Data Source: SpecStory" data-group="Data">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">Data source</div>
+  <h2 class="title">Where real sessions come from: <span class="ss-word">SpecStory</span></h2>
+  <p class="lead">A VS Code extension that <b>automatically exports AI chat histories</b> as timestamped Markdown files, stored in each project repository.</p>
+
+  <div class="body s-spec">
+    <div class="ss-brand" data-r>
+      <img src="figures/logos/specstory-long.png" alt="SpecStory — works with Cursor, GitHub Copilot, Claude Code, Codex, Gemini">
+    </div>
+
+    <div class="ss-flow">
+      <div class="ss-step" data-r style="--d:1">
+        <div class="k">1 · Chat</div>
+        <div class="h">Developer works with an AI assistant</div>
+        <div class="t">Cursor, GitHub Copilot, Claude Code, …</div>
+      </div>
+      <div class="arrow" data-r style="--d:1"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="ss-step file" data-r style="--d:2">
+        <div class="k">2 · Auto-export</div>
+        <div class="path"><i class="fa-regular fa-file-lines"></i> .specstory/history/<b>2025-06-15</b>_14-32Z-login.md</div>
+        <pre class="md"><span class="c">&lt;!-- Generated by SpecStory --&gt;</span>
+<span class="u">_**User**_</span>
+The login button should redirect to /dashboard after auth
+<span class="c">---</span>
+<span class="a">_**Assistant**_</span>
+…</pre>
+      </div>
+      <div class="arrow" data-r style="--d:2"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="ss-step" data-r style="--d:3">
+        <div class="k">3 · Commit</div>
+        <div class="h">Pushed to public GitHub repositories</div>
+        <div class="t">As part of routine development: <b>neither required nor observed by researchers</b></div>
+      </div>
+      <div class="arrow" data-r style="--d:3"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="ss-step ours" data-r style="--d:4">
+        <div class="k">4 · Our scraper</div>
+        <div class="h">GitHub Code Search API</div>
+        <div class="t">Query <span class="code">.specstory/history/</span>, partitioned by date prefix to get past the 1,000-result cap; parse role-prefixed turns</div>
+      </div>
+    </div>
+
+    <div class="ss-thanks" data-r style="--d:5">
+      <img src="figures/logos/crevik.svg" alt="CREVIK">
+      <span>Thanks to <b>Yuqi Wang</b>, founder of CREVIK, for introducing us to SpecStory</span>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ DATASET -->
+<section class="slide" data-title="Dataset" data-group="Data">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">Dataset</div>
+  <h2 class="title">Real-world conversational programming at scale</h2>
+  <p class="lead"><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor and <img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot sessions from September 2024 to March 2026, collected on March 4, 2026.</p>
+
+  <div class="body s-data">
+    <div class="big4">
+      <div data-r><div class="stat">74,998</div><div class="lbl">developer messages</div></div>
+      <div data-r style="--d:1"><div class="stat">11,579</div><div class="lbl">chat sessions</div></div>
+      <div data-r style="--d:2"><div class="stat">1,300</div><div class="lbl">repositories</div></div>
+      <div data-r style="--d:3"><div class="stat">899</div><div class="lbl">developers</div></div>
+    </div>
+
+    <div class="row facts">
+      <div class="card soft grow" data-r style="--d:4">
+        <h4><i class="fa-solid fa-code-branch"></i> Repositories</h4>
+        <p><b>67.3%</b> single contributor, <b>90.8%</b> created in 2025 or later</p>
+        <div class="chips">
+          <span class="pill">TypeScript 25.8%</span><span class="pill">Python 22.0%</span><span class="pill">JavaScript 13.1%</span><span class="pill">HTML 9.4%</span>
+        </div>
+      </div>
+      <div class="card soft grow" data-r style="--d:5">
+        <h4><i class="fa-solid fa-language"></i> Messages</h4>
+        <p>Written in <b>20+</b> natural languages</p>
+        <div class="chips">
+          <span class="pill">English 59.7%</span><span class="pill">Chinese 18.5%</span><span class="pill">Japanese 8.3%</span><span class="pill">…</span>
+        </div>
+      </div>
+      <div class="card soft grow" data-r style="--d:6">
+        <h4><i class="fa-solid fa-filter"></i> Scope</h4>
+        <p>IDE-integrated sessions only</p>
+        <p class="note">Excluded 1,705 CLI-agent sessions (e.g., Claude Code): a different interaction paradigm, left to future work</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ RQS -->
+<section class="slide" data-title="Research Questions" data-group="Data">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">Research questions</div>
+  <h2 class="title">Two levels of analysis: messages and sessions</h2>
+
+  <div class="body row s-rqs">
+    <figure class="fig" data-r>
+      <img src="figures/paper/illustrative-session.svg" alt="Illustrative session annotated with behavioral intent labels">
+    </figure>
+    <div class="col grow">
+      <div class="card rq" data-r style="--d:1">
+        <div class="rq-tag">RQ1 · Message level</div>
+        <p class="rq-q">What <b>behavioral intents</b> do developers express in their messages to AI coding assistants?</p>
+        <p class="note">Multi-label taxonomy · all 74,998 messages</p>
+      </div>
+      <div class="card rq rq2" data-r style="--d:2">
+        <div class="rq-tag">RQ2 · Session level</div>
+        <p class="rq-q">What recurring <b>behavioral archetypes</b> and <b>intent dynamics</b> characterize conversational programming sessions?</p>
+        <p class="note">Sequence clustering · transitions within and across sessions</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ RQ1 METHOD -->
+<section class="slide" data-title="Methodology" data-group="RQ1 · Intents">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ1</span>Method</div>
+  <h2 class="title">Labeling what each message <em>does</em>, not what it is about</h2>
+  <p class="lead">Drawing on Speech Act Theory, we label each message by its <b>illocutionary act</b> (e.g., requesting, asserting, directing), with <b>multiple labels</b> allowed.</p>
+
+  <div class="body s-m1">
+    <div class="example" data-r>
+      <span class="q">@config.yaml — set up the database connection</span>
+      <i class="fa-solid fa-arrow-right muted"></i>
+      <span class="pill">provides context</span><span class="plus">+</span><span class="pill">requests implementation</span>
+    </div>
+
+    <div class="steps">
+      <div class="card step" data-r style="--d:1">
+        <div class="icon-badge"><i class="fa-solid fa-users"></i></div>
+        <h3>Codebook</h3>
+        <p class="small">4 rounds of iterative abductive coding by 3 researchers (SE, AI, HCI)</p>
+        <p class="note">New or revised subcategories per round: 9 → 5 → 1 → 0</p>
+        <div class="out">7 categories · 20 subcategories</div>
+      </div>
+      <div class="arrow" data-r style="--d:1"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="card step" data-r style="--d:2">
+        <div class="icon-badge"><i class="fa-solid fa-robot"></i></div>
+        <h3>LLM classification</h3>
+        <p class="small">GPT-5 mini with the codebook as system prompt and one turn of prior context</p>
+        <p class="note">Structured JSON labels with a justification for each</p>
+        <div class="out">All 74,998 messages labeled</div>
+      </div>
+      <div class="arrow" data-r style="--d:2"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="card step" data-r style="--d:3">
+        <div class="icon-badge"><i class="fa-solid fa-user-check"></i></div>
+        <h3>Human validation</h3>
+        <p class="small">400 stratified messages, 2 independent annotators, adjudicated gold standard</p>
+        <p class="note">Inter-rater Cohen's κ = 0.669</p>
+        <div class="out">Macro F1 = 0.802</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ TAXONOMY -->
+<section class="slide" data-title="Intent Taxonomy" data-group="RQ1 · Intents">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ1</span>Behavioral intent taxonomy</div>
+  <h2 class="title">7 categories, 20 subcategories</h2>
+
+  <div class="body s-tax">
+    <div class="tax-grid">
+      <div class="cat" data-r>
+        <div class="cat-h"><span class="i">1</span>Code Authoring<span class="p">34.53%</span></div>
+        <div class="def">Produce, modify, or adjust code</div>
+        <ul>
+          <li><span>New Implementation</span><div class="bar"><i style="--w:23.6%"></i></div><b>5.86</b></li>
+          <li><span>Iterative Modification</span><div class="bar"><i style="--w:100%"></i></div><b>24.84</b></li>
+          <li><span>Alignment Correction</span><div class="bar"><i style="--w:29.0%"></i></div><b>7.21</b></li>
+        </ul>
+      </div>
+      <div class="cat" data-r style="--d:1">
+        <div class="cat-h"><span class="i">2</span>Failure Reporting<span class="p">24.00%</span></div>
+        <div class="def">Report something broken or behaving unexpectedly</div>
+        <ul>
+          <li><span>Log Paste</span><div class="bar"><i style="--w:35.6%"></i></div><b>8.84</b></li>
+          <li><span>Symptom Description</span><div class="bar"><i style="--w:59.5%"></i></div><b>14.77</b></li>
+          <li><span>Error Persistence</span><div class="bar"><i style="--w:15.1%"></i></div><b>3.76</b></li>
+        </ul>
+      </div>
+      <div class="cat" data-r style="--d:2">
+        <div class="cat-h"><span class="i">3</span>Inquiry<span class="p">19.17%</span></div>
+        <div class="def">Seek information or advice without requesting code</div>
+        <ul>
+          <li><span>Planning &amp; Consultation</span><div class="bar"><i style="--w:31.4%"></i></div><b>7.81</b></li>
+          <li><span>Project Comprehension</span><div class="bar"><i style="--w:33.0%"></i></div><b>8.19</b></li>
+          <li><span>General Knowledge Query</span><div class="bar"><i style="--w:14.3%"></i></div><b>3.56</b></li>
+        </ul>
+      </div>
+      <div class="cat" data-r style="--d:3">
+        <div class="cat-h"><span class="i">4</span>Context Specification<span class="p">14.08%</span></div>
+        <div class="def">Shape the agent's understanding or action rules</div>
+        <ul>
+          <li><span>Information Injection</span><div class="bar"><i style="--w:34.1%"></i></div><b>8.46</b></li>
+          <li><span>Behavior Specification</span><div class="bar"><i style="--w:24.7%"></i></div><b>6.14</b></li>
+        </ul>
+      </div>
+      <div class="cat" data-r style="--d:4">
+        <div class="cat-h"><span class="i">5</span>Validation<span class="p">3.99%</span></div>
+        <div class="def">Ask the agent to evaluate code or execution output</div>
+        <ul>
+          <li><span>Code Review</span><div class="bar"><i style="--w:11.0%"></i></div><b>2.74</b></li>
+          <li><span>Runtime Inspection</span><div class="bar"><i style="--w:5.1%"></i></div><b>1.26</b></li>
+        </ul>
+      </div>
+      <div class="cat" data-r style="--d:5">
+        <div class="cat-h"><span class="i">6</span>Delegation<span class="p">16.48%</span></div>
+        <div class="def">Development-workflow actions beyond authoring code</div>
+        <ul>
+          <li><span>Documentation</span><div class="bar"><i style="--w:27.6%"></i></div><b>6.85</b></li>
+          <li><span>Toolchain Operation</span><div class="bar"><i style="--w:42.3%"></i></div><b>10.50</b></li>
+        </ul>
+      </div>
+      <div class="cat wide" data-r style="--d:6">
+        <div class="cat-h"><span class="i">7</span>Workflow Control<span class="p">11.47%</span></div>
+        <div class="def">Manage session pace, direction, or state without new technical content</div>
+        <ul class="two">
+          <li><span>Confirmation <i class="ex">“works”</i></span><div class="bar"><i style="--w:10.7%"></i></div><b>2.65</b></li>
+          <li><span>Continuation <i class="ex">“continue”</i></span><div class="bar"><i style="--w:22.3%"></i></div><b>5.54</b></li>
+          <li><span>Deferred Debugging <i class="ex">“fix it”</i></span><div class="bar"><i style="--w:3.0%"></i></div><b>0.74</b></li>
+          <li><span>Deferred Implementation <i class="ex">“edit it”</i></span><div class="bar"><i style="--w:3.1%"></i></div><b>0.78</b></li>
+          <li><span>Sentiment Expression</span><div class="bar"><i style="--w:8.3%"></i></div><b>2.05</b></li>
+        </ul>
+      </div>
+    </div>
+    <p class="tax-note" data-r style="--d:7">% of 74,998 messages. Multi-intent prompting is common: <b>29.87%</b> of messages carry more than one label (mean = 1.33).</p>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDING 1 -->
+<section class="slide" data-title="Progressive Specification" data-group="RQ1 · Intents">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ1</span>Finding 1</div>
+  <h2 class="title"><span class="hl">Progressive specification</span> rather than upfront task description</h2>
+
+  <div class="body s-f1">
+    <div class="row">
+      <div class="card grow f1-bars" data-r style="--d:1">
+        <h4>Within Code Authoring (34.53% of messages)</h4>
+        <div class="hbar"><span>Iterative Modification</span><div class="bar"><i style="--w:100%"></i></div><b>24.84%</b></div>
+        <div class="hbar"><span>Alignment Correction</span><div class="bar"><i style="--w:29%"></i></div><b>7.21%</b></div>
+        <div class="hbar"><span>New Implementation</span><div class="bar gold"><i style="--w:23.6%"></i></div><b>5.86%</b></div>
+        <p class="small">Correction turns stay minimal, relying on accumulated context:</p>
+        <div class="terse"><span class="q">sans tiret</span><span class="q">Nope, still gray.</span></div>
+        <p class="note co">Alignment Correction co-occurs with Iterative Modification in <b>43.02%</b> of cases.</p>
+      </div>
+
+      <div class="col grow">
+        <div class="card" data-r style="--d:2">
+          <h4>Realigning the agent when its output diverged from intent</h4>
+          <p class="q big">Why aren't you following @user-preferences.mdc right now?</p>
+        </div>
+        <div class="card" data-r style="--d:3">
+          <h4>Accommodating evolving requirements</h4>
+          <p class="q big">Can we convert back to cmdliner?</p>
+          <p class="note">goals shifted</p>
+          <p class="q big">I added a <span class="code">course_name</span> field on the backend; update the frontend accordingly</p>
+          <p class="note">surrounding system changed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDINGS 2–4 -->
+<section class="slide" data-title="Redistributed Cognition" data-group="RQ1 · Intents">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ1</span>Findings 2 – 4</div>
+  <h2 class="title">Developers <span class="hl">redistribute cognitive work</span> to the agent</h2>
+
+  <div class="body three s-f234">
+    <div class="card fcol" data-r>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-bug"></i></div><div><div class="fnum">Finding 2 · Diagnosis</div><h3>Report symptoms, not causes</h3></div></div>
+      <div class="fstat"><span class="stat">24.00<small>%</small></span><span class="small">Failure Reporting,<br>2nd most common</span></div>
+      <div class="sub2"><span><span class="intent">Symptom Description</span><b>14.77%</b></span><span><span class="intent">Log Paste</span><b>8.84%</b></span></div>
+      <p class="q">table doesn't update until I refresh</p>
+      <p class="q">still stuck</p>
+      <p class="take">The agent takes on causal interpretation; developers act as <b>reporters of failure evidence</b>.</p>
+    </div>
+
+    <div class="card fcol" data-r style="--d:1">
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-magnifying-glass"></i></div><div><div class="fnum">Finding 3 · Comprehension</div><h3>Ask about behavior, not code</h3></div></div>
+      <div class="fstat"><span class="stat">8.19<small>%</small></span><span class="small">Project<br>Comprehension</span></div>
+      <p class="q">How does the system determine the icon's latitude and longitude?</p>
+      <p class="q">I don't understand the results—does this test now invalidate the hypothesis?</p>
+      <p class="take">Code-centric queries were comparatively rare, e.g. <span class="q">what is calling <span class="code">combinedUrlActions</span>?</span></p>
+    </div>
+
+    <div class="card fcol" data-r style="--d:2">
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-clipboard-check"></i></div><div><div class="fnum">Finding 4 · Validation</div><h3>Delegate review and runtime checks</h3></div></div>
+      <div class="fstat"><span class="stat">3.99<small>%</small></span><span class="small">Code Review 2.74%<br>Runtime Inspection 1.26%</span></div>
+      <p class="q">Is the current implementation correct in this form?</p>
+      <p class="q">Please run that command in a terminal so you can check the results</p>
+      <p class="take"><b>46.19%</b> of runtime inspection requests also ask the agent to operate the toolchain: it both <b>runs</b> and <b>evaluates</b>.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDINGS 5–6 -->
+<section class="slide" data-title="Managing Collaboration" data-group="RQ1 · Intents">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ1</span>Findings 5 – 6</div>
+  <h2 class="title">Developers <span class="hl">actively manage the collaboration</span></h2>
+
+  <div class="body row s-f56">
+    <div class="card grow fcol" data-r>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-file-lines"></i></div><div><div class="fnum">Finding 5 · Documentation · 6.85%</div><h3>Docs as persistent external memory</h3></div></div>
+      <div class="files"><span class="code">TODO.md</span><span class="code">PROGRESS.md</span><span class="code">architecture.md</span></div>
+      <div class="uses">
+        <div><span class="k">Guide implementation</span><span class="q">read <span class="code">architecture.md</span> for context then fully implement</span></div>
+        <div><span class="k">Validate against constraints</span><span class="q">check whether the implementation is consistent with the requirements and design documents</span></div>
+        <div><span class="k">Carry work across sessions</span><span class="q">create a prompt for the next chat to carry out all the next steps</span></div>
+      </div>
+      <p class="take">Also human-facing: module summaries, deployment audits, architecture diagrams.</p>
+    </div>
+
+    <div class="card grow fcol" data-r style="--d:1">
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-sliders"></i></div><div><div class="fnum">Finding 6 · Context Specification</div><h3>Shaping context, negotiating autonomy</h3></div></div>
+      <div class="inj">
+        <span class="intent">Information Injection</span><b>8.46%</b>
+        <span class="q">see the attached <span class="code">openapi.yaml</span></span>
+      </div>
+      <div class="inj"><span class="intent">Behavior Specification</span><b>6.14%</b></div>
+      <div class="spectrum">
+        <div class="track"><span>constrain</span><span>delegate</span></div>
+        <div class="stops">
+          <div><span class="q">only analyze; do not modify the code</span><span class="note">hard constraint</span></div>
+          <div><span class="q">if you encounter an error, stop and ask me</span><span class="note">condition for human intervention</span></div>
+          <div><span class="q">you decide</span><span class="note">open-ended delegation: trades oversight for reduced effort</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDING 7 -->
+<section class="slide" data-title="Session Length" data-group="RQ2 · Sessions">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ2</span>Finding 7</div>
+  <h2 class="title">Most sessions are short; a long tail sustains iteration</h2>
+
+  <div class="body row s-f7">
+    <figure class="fig cdf" data-r>
+      <img src="figures/paper/session-length-cdf.svg" alt="CDF of messages per session">
+      <figcaption>User messages per session (n = 11,579): median 3, mean 6.48, max 156</figcaption>
+    </figure>
+    <div class="col grow">
+      <div class="card grp" data-r style="--d:1">
+        <h4>≤ 3 messages · n = 6,715</h4>
+        <h3>Short, task-focused</h3>
+        <p class="small">Concentrated in one-shot task-completion intents</p>
+        <div class="vs"><span class="intent">New Implementation</span><b>12.78%</b><span>vs</span><b class="dim">4.71%</b></div>
+        <div class="vs"><span class="intent">Documentation</span><b>9.75%</b><span>vs</span><b class="dim">6.37%</b></div>
+      </div>
+      <div class="card grp long" data-r style="--d:2">
+        <h4>≥ 4 messages · n = 4,864</h4>
+        <h3>Reactive and iterative</h3>
+        <p class="small">Higher proportions of reactive and iterative intents</p>
+        <div class="vs"><span class="intent">Alignment Correction</span><b>7.85%</b><span>vs</span><b class="dim">3.41%</b></div>
+        <div class="vs"><span class="intent">Error Persistence</span><b>4.21%</b><span>vs</span><b class="dim">1.06%</b></div>
+      </div>
+      <p class="small next" data-r style="--d:3"><i class="fa-solid fa-arrow-right"></i> We cluster these 4,864 longer sessions next.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ ARCHETYPES -->
+<section class="slide" data-title="Session Archetypes" data-group="RQ2 · Sessions">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ2</span>Method &amp; Finding 8</div>
+  <h2 class="title">Six recurring session archetypes</h2>
+
+  <div class="body row s-arch">
+    <div class="card m2" data-r>
+      <h4>Sequence clustering</h4>
+      <p class="small">Each session is an <b>ordered sequence of intent label sets</b>, compared with a <b>hierarchy-aware edit distance</b>:</p>
+      <div class="seq">
+        <div class="seq-row"><span class="who">s</span><i class="intent">Iterative Modification</i><i class="intent">Symptom Description</i><i class="intent">Error Persistence</i><i class="intent">Confirmation</i></div>
+        <div class="seq-cost"><span></span><b>0</b><b class="mid">0.5</b><b>0</b><b class="hi">1.0</b></div>
+        <div class="seq-row"><span class="who">s′</span><i class="intent">Iterative Modification</i><i class="intent">Log Paste</i><i class="intent">Error Persistence</i><i class="intent ghost">—</i></div>
+      </div>
+      <div class="costs">
+        <span><b>0</b> same label</span><span><b class="mid">0.5</b> same main category</span><span><b class="hi">1.0</b> different category, insertion, or deletion</span>
+      </div>
+      <p class="small"><i class="fa-solid fa-arrow-right muted"></i> K-Medoids (PAM), <b>k = 6</b> by silhouette score</p>
+      <p class="note">Weakly separated clusters, read as <b>prototypical archetypes</b> rather than mutually exclusive classes.</p>
+    </div>
+
+    <div class="arch-list grow">
+      <div class="arch" style="--c:#55A868; --d:1" data-r><span class="dot"></span><div><div class="nm">Focused Iterative Refinement</div><div class="dm">Code Authoring 60.74%</div></div><b>23.81%</b></div>
+      <div class="arch" style="--c:#DD8452; --d:2" data-r><span class="dot"></span><div><div class="nm">Failure-Driven Debugging</div><div class="dm">Failure Reporting 52.81%</div></div><b>19.90%</b></div>
+      <div class="arch" style="--c:#8172B3; --d:3" data-r><span class="dot"></span><div><div class="nm">Extended Iterative Co-Development</div><div class="dm">Median 27 messages, most balanced</div></div><b>18.42%</b></div>
+      <div class="arch" style="--c:#4C72B0; --d:4" data-r><span class="dot"></span><div><div class="nm">Planning &amp; Comprehension</div><div class="dm">Inquiry 49.81%</div></div><b>15.77%</b></div>
+      <div class="arch" style="--c:#937860; --d:5" data-r><span class="dot"></span><div><div class="nm">Toolchain-Oriented Operations</div><div class="dm">Delegation 55.35%</div></div><b>12.64%</b></div>
+      <div class="arch" style="--c:#C44E52; --d:6" data-r><span class="dot"></span><div><div class="nm">Continuation-Driven Delegation</div><div class="dm"><span class="q">continue</span>, <span class="q">go on</span>: resembles “vibe coding”</div></div><b>9.46%</b></div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ LIVE EXPLORER -->
+<section class="slide" data-title="Explore the Sessions" data-group="RQ2 · Sessions">
+<div class="frame"><div class="stage s-live">
+  <div class="live-head">
+    <div>
+      <div class="eyebrow"><span class="rq">RQ2</span>Interactive</div>
+      <h2 class="title">Every point is a real session</h2>
+    </div>
+    <a class="live-url" href="https://conversational-programming-clusters.netlify.app/" target="_blank" rel="noopener">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> conversational-programming-clusters.netlify.app
+    </a>
+  </div>
+  <div class="live-box">
+    <img class="live-fallback" src="figures/paper/tsne.svg" alt="t-SNE projection of 4,864 sessions">
+    <iframe data-src="https://conversational-programming-clusters.netlify.app/" title="Session clustering explorer" loading="lazy"></iframe>
+  </div>
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDING 9 -->
+<section class="slide" data-title="Within-Session Loops" data-group="RQ2 · Sessions">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ2</span>Finding 9</div>
+  <h2 class="title">Within sessions, intents are <span class="hl">self-reinforcing</span></h2>
+
+  <div class="body row s-f9">
+    <figure class="fig heat" data-r>
+      <img src="figures/paper/transition-lift.svg" alt="Markov lift of transitions between intent subcategories">
+    </figure>
+
+    <div class="col grow">
+      <div class="f9-top" data-r style="--d:1">
+        <div class="formula"><span class="lbl">Markov lift</span><span class="math"><span>lift(<i>i</i>&#8239;→&#8239;<i>j</i>)</span><span>=</span><span class="frac"><span><i>P</i>(<i>j</i> | <i>i</i>)</span><span><i>P</i>(<i>j</i>)</span></span></span><span class="lbl">&gt; 1: reinforced</span></div>
+        <div class="f9-stats">
+          <div><div class="stat sm">20<small>/20</small></div><div class="small">subcategories have self-loop lift &gt; 1</div></div>
+          <div><div class="stat sm">27</div><div class="small">turns: longest run of Iterative Modification</div></div>
+        </div>
+      </div>
+
+      <div class="card loops" data-r style="--d:2">
+        <h4>Recurrent micro-cycles</h4>
+        <div class="loop">
+          <div class="loop-name">Debugging loop</div>
+          <div class="loop-row"><i class="intent"><span class="ix">2.2</span> Symptom Description</i><span class="lift"><span>2.87 →</span><span>← 1.70</span></span><i class="intent"><span class="ix">2.3</span> Error Persistence</i></div>
+        </div>
+        <div class="loop">
+          <div class="loop-name">Validation loop</div>
+          <div class="loop-row"><i class="intent"><span class="ix">6.2</span> Toolchain Operation</i><span class="lift"><span>2.25 →</span><span>← 1.88</span></span><i class="intent"><span class="ix">5.2</span> Runtime Inspection</i></div>
+        </div>
+        <div class="loop">
+          <div class="loop-name">Corrective redirection</div>
+          <div class="loop-row"><i class="intent"><span class="ix">1.2</span> Iterative Modification</i><span class="lift"><span>1.57 →</span></span><i class="intent"><span class="ix">1.3</span> Alignment Correction</i></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ FINDINGS 10–11 -->
+<section class="slide" data-title="Resets and Drift" data-group="RQ2 · Sessions">
+<div class="frame"><div class="stage">
+  <div class="eyebrow"><span class="rq">RQ2</span>Findings 10 – 11</div>
+  <h2 class="title">Resets across sessions, drift within them</h2>
+
+  <div class="body row s-f1011">
+    <div class="card grow fcol" data-r>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-rotate"></i></div><div><div class="fnum">Finding 10 · Across sessions</div><h3>New session, same task</h3></div></div>
+      <p class="small">Across session boundaries, every self-loop lift stays above 1 (1.19–20.77): <b>task-level intent is preserved</b>. But context-dependent intents reset:</p>
+      <div class="tbl">
+        <div class="t-h"><span></span><span>within</span><span>across</span></div>
+        <div class="t-row"><i class="intent">Confirmation</i><b>6.08</b><b class="down">≈ 0</b></div>
+        <div class="t-row"><i class="intent">Error Persistence</i><b>5.19</b><b class="down">1.19</b></div>
+      </div>
+      <p class="take">Developers start new sessions to <b>refresh accumulated context</b> rather than to switch tasks.</p>
+    </div>
+
+    <div class="card grow fcol" data-r style="--d:1">
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-arrow-trend-up"></i></div><div><div class="fnum">Finding 11 · Over a session</div><h3>From framing to reacting</h3></div></div>
+      <p class="small">Opening messages establish task scope and constraints:</p>
+      <div class="tbl">
+        <div class="t-h"><span></span><span>opening</span><span>later</span></div>
+        <div class="t-row"><span class="lbl">Length (chars)</span><b>1,003</b><b>499</b></div>
+        <div class="t-row"><i class="intent">New Implementation</i><b>15.89%</b><b>4.03%</b></div>
+        <div class="t-row"><i class="intent">Alignment Correction</i><b>0.73%</b><b>8.40%</b></div>
+      </div>
+      <p class="take">Then sessions grow reactive: <b>Inquiry</b> and <b>Context Specification</b> decline, while <b>Failure Reporting</b> and <b>Delegation</b> increase.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ IMPLICATIONS -->
+<section class="slide" data-title="Implications" data-group="Wrap-up">
+<div class="frame"><div class="stage">
+  <div class="eyebrow">Discussion</div>
+  <h2 class="title">What this means for coding agents</h2>
+
+  <div class="body s-impl">
+    <div class="impl" data-r>
+      <div class="impl-l"><span class="num">1</span><div><h3>Progressive specification</h3><p class="note">Findings 1, 9, 11</p></div></div>
+      <div class="impl-r">
+        <p>Benchmarks like SWE-bench assume a <b>complete, self-contained task description</b>. Agents must also tolerate ambiguity, track evolving intent, and surface missing constraints.</p>
+        <p class="note">Spec-driven development (GitHub Spec Kit, Amazon Kiro) formalizes what developers already do organically, raising a three-way alignment problem.</p>
+      </div>
+      <div class="impl-v v-spec">
+        <span class="nd"><i class="fa-solid fa-lightbulb"></i>intent</span><i class="fa-solid fa-arrows-left-right ar"></i>
+        <span class="nd"><i class="fa-solid fa-file-lines"></i>document</span><i class="fa-solid fa-arrows-left-right ar"></i>
+        <span class="nd"><i class="fa-solid fa-code"></i>code</span>
+      </div>
+    </div>
+    <div class="impl" data-r style="--d:1">
+      <div class="impl-l"><span class="num">2</span><div><h3>Redistributed cognition</h3><p class="note">Findings 2, 3, 4</p></div></div>
+      <div class="impl-r">
+        <p>When diagnosis, comprehension, and validation are all delegated to the same system, the agent may become <b>the only judge of both what the code does and whether it is correct</b>.</p>
+      </div>
+      <div class="impl-v v-judge">
+        <div class="tasks"><span>diagnose</span><span>comprehend</span><span>validate</span></div>
+        <i class="fa-solid fa-arrow-right ar"></i>
+        <span class="agent"><i class="fa-solid fa-robot"></i></span>
+      </div>
+    </div>
+    <div class="impl" data-r style="--d:2">
+      <div class="impl-l"><span class="num">3</span><div><h3>Managing an opaque collaborator</h3><p class="note">Findings 5, 6, 10</p></div></div>
+      <div class="impl-r">
+        <p>File reads, commands, edits, and long responses accumulate in a single stream, so developers <b>rely on the agent's self-report</b>. This coordination burden grows as agents take on longer task horizons.</p>
+      </div>
+      <div class="impl-v v-stream">
+        <span><i class="fa-solid fa-magnifying-glass"></i> Read 6 files</span>
+        <span><i class="fa-solid fa-terminal"></i> Ran 4 commands</span>
+        <span><i class="fa-solid fa-align-left"></i> 1,200-word response</span>
+        <span class="more">…</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ EMNLP -->
+<section class="slide" data-title="Next: Auditing Agents" data-group="Wrap-up">
+<div class="frame"><div class="stage s-next">
+  <img class="emnlp-logo" src="figures/logos/emnlp-small.png" alt="EMNLP 2026 Budapest">
+  <div class="eyebrow">What's next</div>
+  <h2 class="title">How Coding Agents Fail Their Users</h2>
+  <p class="subtitle-sm">A Large-Scale Analysis of Developer-Agent Misalignment in 20,574 Real-World Sessions</p>
+
+  <div class="body row next-body">
+    <div class="paper-shot" data-r>
+      <img src="figures/paper/emnlp-first-page.jpg" alt="First page of the EMNLP 2026 paper">
+    </div>
+
+    <div class="col grow">
+      <ul class="def" data-r style="--d:1">
+        <li><b>Misalignment</b> = a breakdown made visible through developer pushback</li>
+        <li><b>16,118 episodes</b> from 20,574 IDE + CLI sessions</li>
+        <li>Each annotated by <b>form, cause, cost, and resolution</b></li>
+      </ul>
+
+      <div class="card episode" data-r style="--d:2">
+        <div class="ep-h"><span>A real episode</span><i>translated from Chinese</i></div>
+        <div class="turn"><span class="who u">Turn 1 · Developer</span><span class="q">Please re-verify task 211 in full and item by item, confirming whether everything is complete and the feature is functionally complete.</span></div>
+        <div class="turn"><span class="who a">Turn 2 · Agent</span><span class="q">… Conclusion: <b>10/10 tasks are in place and the functional chain is complete.</b></span></div>
+        <div class="turn bad"><span class="who u">Turn 3 · Developer</span><span class="q">Error when adding an extra IP: <span class="code">SQL logic error: no such column: extra_ips (1)</span></span></div>
+        <div class="axes">
+          <span><em>Form</em> Inaccurate Self-Reporting</span>
+          <span><em>Cause</em> Cannot Determine</span>
+          <span><em>Cost</em> Effort/trust cost only</span>
+          <span><em>Resolution</em> Unknown</span>
+        </div>
+      </div>
+
+      <div class="trend" data-r style="--d:3">
+        <div class="trend-h"><i class="fa-solid fa-chart-line"></i> Over time, overall misalignment declines, but its form shifts</div>
+        <div class="trend-rows">
+          <div><i class="fa-solid fa-arrow-down down"></i> <b>Faulty Implementation</b> falls: agents keep improving at verifiably correct code (e.g., RLVR)</div>
+          <div><i class="fa-solid fa-arrow-up up"></i> <b>Developer Constraint Violation</b> and <b>Inaccurate Self-Reporting</b> grow in share</div>
+        </div>
+        <p class="punch">Continuously auditing real-world trajectories: agent evaluation <b>beyond benchmarks</b>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span class="pg"></span></div>
+</div></div>
+</section>
+
+<!-- ============================================================ CLOSING -->
+<section class="slide" data-title="Thank You" data-group="Wrap-up">
+<div class="frame"><div class="stage s-close">
+
+  <div class="c-top">
+    <img src="figures/logos/ase-transparent.png" alt="ASE 2026" style="height:104px">
+    <img src="figures/logos/notre-dame.png" alt="University of Notre Dame" style="height:66px">
+    <img src="figures/logos/vanderbilt.png" alt="Vanderbilt University" style="height:62px">
+    <span class="grow"></span>
+    <img class="logo-round" src="figures/logos/sandwich.svg" alt="SaNDwich Lab" style="height:104px">
+  </div>
+
+  <div class="c-title center">
+    <h2>Programming by Chat: A Large-Scale Behavioral Analysis of 11,579 Real-World AI-Assisted IDE Sessions</h2>
+    <p>Ningzhi Tang*, Chaoran Chen*, Zihan Fang, Gelei Xu, Maria Dhakal, Yiyu Shi, Collin McMillan, Yu Huang, Toby Jia-Jun Li</p>
+    <p class="mail">{ntang, cchen25, gxu4, mdhakal, yshi4, cmc, toby.j.li}@nd.edu, {zihan.fang, yu.huang}@vanderbilt.edu</p>
+  </div>
+
+  <div class="c-mid">
+    <div class="c-left">
+      <div class="c-me">
+        <img class="c-photo" src="figures/headshot.jpg" alt="Ningzhi Tang">
+        <div class="c-card">
+          <div class="c-name">Ningzhi Tang</div>
+          <a href="https://www.nztang.com"><i class="ic fa-solid fa-globe"></i>nztang.com</a>
+          <a href="mailto:ntang@nd.edu"><i class="ic fa-solid fa-envelope"></i>ntang@nd.edu</a>
+          <a href="https://github.com/TTangNingzhi"><i class="ic fa-brands fa-github"></i>TTangNingzhi</a>
+          <a href="https://www.linkedin.com/in/ningzhi-tang"><i class="ic fa-brands fa-linkedin"></i>in/ningzhi-tang</a>
+        </div>
+      </div>
+      <div class="c-job">
+        <div class="job-h"><i class="fa-solid fa-bullhorn"></i> I'm graduating in Dec 2026 and on the job market for full-time industry roles.</div>
+        <div class="job-kw">
+          <span>Agent evaluation</span><span>Coding agents</span><span>Agent customization</span><span>Developer tools and experience</span><span>Human-AI interaction</span>
+        </div>
+      </div>
+    </div>
+    <div class="c-right">
+      <div class="c-links">
+        <a href="https://github.com/ND-SaNDwichLAB/empirical-conversational-programming"><i class="fa-brands fa-github"></i> ND-SaNDwichLAB/empirical-conversational-programming</a>
+        <a href="https://conversational-programming-clusters.netlify.app/"><i class="fa-solid fa-chart-simple"></i> conversational-programming-clusters.netlify.app</a>
+      </div>
+      <figure class="c-fig">
+        <img src="figures/paper/illustrative-session.svg" alt="Illustrative session annotated with behavioral intent labels">
+      </figure>
+    </div>
+  </div>
+
+  <div class="c-bottom">
+    <div class="c-bl">
+    <p class="c-ack">This research was supported in part by a Google Cloud Research Credit Award, a Google Research Scholar Award, a gift from Adobe, an Edison Innovation Fellowship from the Notre Dame IDEA Center, and NSF grants CCF-2211428, CCF-2315887, CCF-2100035, CCF-2211429, CCF-2442682, and DGE-2622415. Any opinions, findings, or recommendations expressed here are those of the authors and do not necessarily reflect the views of the sponsors. The authors thank Yuqi Wang from CREVIK for introducing us to SpecStory, without which this study would not have been possible.</p>
+    </div>
+    <div class="c-logos">
+      <img src="figures/logos/google.png" alt="Google" style="height:40px">
+      <img src="figures/logos/adobe.png" alt="Adobe" style="height:33px">
+      <img src="figures/logos/nsf.png" alt="NSF" style="height:56px">
+      <img src="figures/logos/crevik.svg" alt="CREVIK" style="height:30px">
+      <img src="figures/logos/specstory-wordmark.png" alt="SpecStory" style="height:31px">
+    </div>
+  </div>
+
+</div></div>
+</section>
+
+</main>
+
+<script src="js/slides.js"></script>
+</body>
+</html>
