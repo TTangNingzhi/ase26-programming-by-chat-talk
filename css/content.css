@@ -323,11 +323,11 @@
 
 /* -------------------------------------------------------------- dataset */
 
-.s-data { display: flex; flex-direction: column; justify-content: center; gap: 60px; margin-top: 24px; padding-bottom: 20px; }
+.s-data { display: flex; flex-direction: column; justify-content: center; gap: 32px; margin-top: 40px; padding-bottom: 24px; }
 
 .big4 { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 3px solid var(--nd-blue); }
 .big4 > div { padding: 26px 0 0; }
-.big4 .stat { font-size: 88px; color: var(--nd-blue); }
+.big4 .stat { font-size: 80px; color: var(--nd-blue); }
 .big4 > div:nth-child(even) .stat { color: var(--nd-gold); }
 .lead .tool { height: 0.95em; margin: 0 8px 0 2px; vertical-align: -0.12em; }
 .big4 .lbl { margin-top: 12px; font-size: 26px; color: var(--ink-2); }
@@ -822,3 +822,9 @@ b.hi { color: #b4413a !important; }
 .s-title h1 .gold-word { color: var(--nd-gold); }
 .s-title .subtitle .nw { text-decoration: underline; text-decoration-color: var(--nd-gold); text-decoration-thickness: 3px; text-underline-offset: 7px; }
 .num.gold { background: var(--nd-gold); }
+
+.release { display: flex; align-items: center; gap: 16px; padding: 14px 22px; border-left: 4px solid var(--nd-gold); border-radius: 4px 12px 12px 4px; background: var(--warm-light); font-size: 20px; color: var(--ink-2); }
+.release > i { color: var(--nd-gold-dark); font-size: 22px; }
+.release span { flex: 1; }
+.release a { flex: none; font-family: var(--mono); font-size: 18px; color: var(--nd-blue); text-decoration: none; }
+.release a i { margin-right: 6px; }
