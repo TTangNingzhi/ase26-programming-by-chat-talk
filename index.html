@@ -67,7 +67,7 @@
 <div class="frame"><div class="stage">
   <div class="eyebrow">Motivation</div>
   <h2 class="title">From autocomplete to conversational programming in the IDE</h2>
-  <p class="lead">IDE-integrated assistants such as GitHub Copilot and Cursor have evolved beyond autocomplete into <b>multi-turn conversational systems</b>.</p>
+  <p class="lead">IDE-integrated assistants such as <b><img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot</b> and <b><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor</b> have evolved beyond autocomplete into <b>multi-turn conversational systems</b>.</p>
 
   <div class="body row s-motivation">
     <div class="col grow">
@@ -109,10 +109,15 @@
 
     <div class="col side">
       <img class="tweet" src="figures/vibe-coding-tweet.png" alt="Andrej Karpathy on vibe coding, Feb 2, 2025" data-r style="--d:3">
-      <div class="yc" data-r style="--d:4">
+      <div class="handoff" data-r style="--d:4">
+        <span>Read diffs</span><i class="fa-solid fa-arrow-right"></i>
+        <span>Accept All</span><i class="fa-solid fa-arrow-right"></i>
+        <span class="on"><i class="fa-solid fa-robot"></i> Autonomous agents</span>
+      </div>
+      <div class="yc" data-r style="--d:5">
         <div class="stat">95<small>%</small></div>
         <div>
-          <div class="small">AI-generated: some codebases in YC's W25 cohort</div>
+          <div class="small">AI-generated code in <b>1/4</b> of YC W25 startups</div>
           <div class="src">TechCrunch, March 2025</div>
         </div>
       </div>
@@ -146,19 +151,19 @@
           <div><i class="fa-solid fa-link"></i><b>DevGPT</b><span>Developer-shared ChatGPT links from GitHub</span></div>
           <div><i class="fa-solid fa-message"></i><b>CodeChat</b><span>Developer-LLM conversations from WildChat</span></div>
         </div>
-        <p class="note">Not IDE-native: no repository context, tool access, or direct editing.</p>
+        <p class="note">Not agentic workflows in the IDE: no repository context, tool access, or direct editing.</p>
       </div>
     </div>
 
     <!-- 2 × 2: setting × scale -->
     <div class="quad" data-r style="--d:2">
       <div class="q-ax-y">Scale <i class="fa-solid fa-arrow-right"></i></div>
-      <div class="q-ax-x">Browser chat <i class="fa-solid fa-arrow-right"></i> IDE-native</div>
+      <div class="q-ax-x">Browser chat <i class="fa-solid fa-arrow-right"></i> Agentic</div>
       <div class="q-grid">
         <div class="cell"><span class="dot">DevGPT</span><span class="dot">CodeChat</span></div>
         <div class="cell target">
           <div class="star"><i class="fa-solid fa-star"></i> This work</div>
-          <div class="t">11,579 real-world sessions, in the wild</div>
+          <div class="t">11,579 real-world<br>agentic sessions,<br>in the wild</div>
         </div>
         <div class="cell"></div>
         <div class="cell"><span class="dot">Video studies</span><span class="dot">User studies</span><span class="dot">Interviews</span></div>
@@ -228,7 +233,7 @@ The login button should redirect to /dashboard after auth
 <div class="frame"><div class="stage">
   <div class="eyebrow">Dataset</div>
   <h2 class="title">Real-world conversational programming at scale</h2>
-  <p class="lead"><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor and <img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot sessions from September 2024 to March 2026, collected on March 4, 2026.</p>
+  <p class="lead"><b><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor</b> and <b><img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot</b> sessions from <b>September 2024</b> to <b>March 2026</b>, collected on March 4, 2026.</p>
 
   <div class="body s-data">
     <div class="big4">
@@ -256,7 +261,7 @@ The login button should redirect to /dashboard after auth
       <div class="card soft grow" data-r style="--d:6">
         <h4><i class="fa-solid fa-filter"></i> Scope</h4>
         <p>IDE-integrated sessions only</p>
-        <p class="note">Excluded 1,705 CLI-agent sessions (e.g., Claude Code): a different interaction paradigm, left to future work</p>
+        <p class="note">We excluded CLI agents, since there were fewer CLI-agent users on SpecStory at the time of collection</p>
       </div>
     </div>
 
@@ -436,21 +441,22 @@ The login button should redirect to /dashboard after auth
         <div class="hbar"><span>Alignment Correction</span><div class="bar"><i style="--w:29%"></i></div><b>7.21%</b></div>
         <div class="hbar"><span>New Implementation</span><div class="bar gold"><i style="--w:23.6%"></i></div><b>5.86%</b></div>
         <p class="small">Correction turns stay minimal, relying on accumulated context:</p>
-        <div class="terse"><span class="q">sans tiret</span><span class="q">Nope, still gray.</span></div>
+        <div class="chat terse"><div class="bubble">sans tiret</div><div class="bubble">Nope, still gray.</div></div>
         <p class="note co">Alignment Correction co-occurs with Iterative Modification in <b>43.02%</b> of cases.</p>
       </div>
 
-      <div class="col grow">
+      <div class="col grow why">
+        <div class="why-h" data-r style="--d:2"><i class="fa-solid fa-circle-question"></i> Why does specification unfold over turns?</div>
         <div class="card" data-r style="--d:2">
-          <h4>Realigning the agent when its output diverged from intent</h4>
-          <p class="q big">Why aren't you following @user-preferences.mdc right now?</p>
+          <h4><span class="n">1</span>Output doesn’t match what the developer wants</h4>
+          <div class="chat"><div class="bubble">Why aren't you following <code>@user-preferences.mdc</code> right now?</div></div>
         </div>
         <div class="card" data-r style="--d:3">
-          <h4>Accommodating evolving requirements</h4>
-          <p class="q big">Can we convert back to cmdliner?</p>
-          <p class="note">goals shifted</p>
-          <p class="q big">I added a <span class="code">course_name</span> field on the backend; update the frontend accordingly</p>
-          <p class="note">surrounding system changed</p>
+          <h4><span class="n">2</span>Requirements themselves keep evolving</h4>
+          <div class="chat">
+            <div class="bubble">Can we convert back to <code>cmdliner</code>?</div><span class="note">goals shifted</span>
+            <div class="bubble">I added a <code>course_name</code> field on the backend; update the frontend accordingly</div><span class="note">surrounding system changed</span>
+          </div>
         </div>
       </div>
     </div>
@@ -468,28 +474,57 @@ The login button should redirect to /dashboard after auth
 
   <div class="body three s-f234">
     <div class="card fcol" data-r>
-      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-bug"></i></div><div><div class="fnum">Finding 2 · Diagnosis</div><h3>Report symptoms, not causes</h3></div></div>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-bug"></i></div><div><div class="fnum">Finding 2 · Diagnosis</div><h3>Report symptoms and logs, not diagnosis</h3></div></div>
       <div class="fstat"><span class="stat">24.00<small>%</small></span><span class="small">Failure Reporting,<br>2nd most common</span></div>
-      <div class="sub2"><span><span class="intent">Symptom Description</span><b>14.77%</b></span><span><span class="intent">Log Paste</span><b>8.84%</b></span></div>
-      <p class="q">table doesn't update until I refresh</p>
-      <p class="q">still stuck</p>
-      <p class="take">The agent takes on causal interpretation; developers act as <b>reporters of failure evidence</b>.</p>
+      <div class="fg">
+        <div class="glab">Symptom Description<b>14.77%</b></div>
+        <div class="chat">
+          <div class="bubble">table doesn't update until I refresh</div>
+          <div class="bubble">still stuck</div>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="glab">Log Paste<b>8.84%</b></div>
+        <div class="chat">
+          <div class="log"><span><i class="fa-solid fa-terminal"></i> pasted log</span>Error: useRouter must be used within RouterProvider</div>
+        </div>
+      </div>
     </div>
 
     <div class="card fcol" data-r style="--d:1">
       <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-magnifying-glass"></i></div><div><div class="fnum">Finding 3 · Comprehension</div><h3>Ask about behavior, not code</h3></div></div>
       <div class="fstat"><span class="stat">8.19<small>%</small></span><span class="small">Project<br>Comprehension</span></div>
-      <p class="q">How does the system determine the icon's latitude and longitude?</p>
-      <p class="q">I don't understand the results—does this test now invalidate the hypothesis?</p>
-      <p class="take">Code-centric queries were comparatively rare, e.g. <span class="q">what is calling <span class="code">combinedUrlActions</span>?</span></p>
+      <div class="fg">
+        <div class="glab"><i class="fa-solid fa-circle-check yes"></i>Behavior-centric</div>
+        <div class="chat">
+          <div class="bubble">How does the system determine the icon's latitude and longitude?</div>
+          <div class="bubble">I don't understand the results—does this test now invalidate the hypothesis?</div>
+        </div>
+      </div>
+      <div class="fg rare">
+        <div class="glab"><i class="fa-solid fa-circle-minus"></i>Code-centric: rare</div>
+        <div class="chat">
+          <div class="bubble">what is calling <code>combinedUrlActions</code>?</div>
+        </div>
+      </div>
     </div>
 
     <div class="card fcol" data-r style="--d:2">
-      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-clipboard-check"></i></div><div><div class="fnum">Finding 4 · Validation</div><h3>Delegate review and runtime checks</h3></div></div>
-      <div class="fstat"><span class="stat">3.99<small>%</small></span><span class="small">Code Review 2.74%<br>Runtime Inspection 1.26%</span></div>
-      <p class="q">Is the current implementation correct in this form?</p>
-      <p class="q">Please run that command in a terminal so you can check the results</p>
-      <p class="take"><b>46.19%</b> of runtime inspection requests also ask the agent to operate the toolchain: it both <b>runs</b> and <b>evaluates</b>.</p>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-clipboard-check"></i></div><div><div class="fnum">Finding 4 · Validation</div><h3>Delegate code review and runtime checks</h3></div></div>
+      <div class="fstat"><span class="stat">3.99<small>%</small></span><span class="small">Code Review +<br>Runtime Inspection</span></div>
+      <div class="fg">
+        <div class="glab">Code Review<b>2.74%</b></div>
+        <div class="chat">
+          <div class="bubble">Is the current implementation correct in this form?</div>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="glab">Runtime Inspection<b>1.26%</b></div>
+        <div class="chat">
+          <div class="bubble">Please run that command in a terminal so you can check the results</div>
+          <div class="act"><b>46.19%</b> also ask it to <i class="fa-solid fa-terminal"></i> run <i class="fa-solid fa-arrow-right"></i> <i class="fa-solid fa-circle-check"></i> evaluate</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -506,28 +541,40 @@ The login button should redirect to /dashboard after auth
   <div class="body row s-f56">
     <div class="card grow fcol" data-r>
       <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-file-lines"></i></div><div><div class="fnum">Finding 5 · Documentation · 6.85%</div><h3>Docs as persistent external memory</h3></div></div>
-      <div class="files"><span class="code">TODO.md</span><span class="code">PROGRESS.md</span><span class="code">architecture.md</span></div>
-      <div class="uses">
-        <div><span class="k">Guide implementation</span><span class="q">read <span class="code">architecture.md</span> for context then fully implement</span></div>
-        <div><span class="k">Validate against constraints</span><span class="q">check whether the implementation is consistent with the requirements and design documents</span></div>
-        <div><span class="k">Carry work across sessions</span><span class="q">create a prompt for the next chat to carry out all the next steps</span></div>
+      <div class="docs">
+        <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>TODO.md</div><div class="db"><span class="ok">[x]</span> login flow<br><span>[ ]</span> dashboard filters<br><span>[ ]</span> CSV export</div></div>
+        <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>PROGRESS.md</div><div class="db"><span class="h">## Done</span><br>auth + session store<br><span class="h">## Next</span><br>wire up API</div></div>
+        <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>architecture.md</div><div class="db"><span class="h">## Modules</span><br>api/ · ui/ · db/<br><span class="h">## Rules</span><br>no direct DB in ui/</div></div>
       </div>
-      <p class="take">Also human-facing: module summaries, deployment audits, architecture diagrams.</p>
+      <div class="fg">
+        <div class="glab"><i class="fa-solid fa-compass"></i>Guide implementation</div>
+        <div class="chat"><div class="bubble">read <code>architecture.md</code> for context then fully implement</div></div>
+      </div>
+      <div class="fg">
+        <div class="glab"><i class="fa-solid fa-list-check"></i>Validate against constraints</div>
+        <div class="chat"><div class="bubble">check whether the implementation is consistent with the requirements and design documents</div></div>
+      </div>
+      <div class="fg">
+        <div class="glab"><i class="fa-solid fa-forward"></i>Carry work across sessions</div>
+        <div class="chat"><div class="bubble">create a prompt for the next chat to carry out all the next steps</div></div>
+      </div>
     </div>
 
     <div class="card grow fcol" data-r style="--d:1">
       <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-sliders"></i></div><div><div class="fnum">Finding 6 · Context Specification</div><h3>Shaping context, negotiating autonomy</h3></div></div>
-      <div class="inj">
-        <span class="intent">Information Injection</span><b>8.46%</b>
-        <span class="q">see the attached <span class="code">openapi.yaml</span></span>
+      <div class="fg">
+        <div class="glab">Information Injection<b>8.46%</b></div>
+        <div class="chat"><div class="bubble">see the attached <code>openapi.yaml</code></div></div>
       </div>
-      <div class="inj"><span class="intent">Behavior Specification</span><b>6.14%</b></div>
-      <div class="spectrum">
-        <div class="track"><span>constrain</span><span>delegate</span></div>
-        <div class="stops">
-          <div><span class="q">only analyze; do not modify the code</span><span class="note">hard constraint</span></div>
-          <div><span class="q">if you encounter an error, stop and ask me</span><span class="note">condition for human intervention</span></div>
-          <div><span class="q">you decide</span><span class="note">open-ended delegation: trades oversight for reduced effort</span></div>
+      <div class="fg grow">
+        <div class="glab">Behavior Specification<b>6.14%</b></div>
+        <div class="spectrum">
+          <div class="track"><span>constrain</span><span>delegate</span></div>
+          <div class="stops">
+            <div><div class="bubble">only analyze; do not modify the code</div><span class="note">hard constraint</span></div>
+            <div><div class="bubble">if you encounter an error, stop and ask me</div><span class="note">condition for human intervention</span></div>
+            <div><div class="bubble">you decide</div><span class="note">open-ended delegation</span></div>
+          </div>
         </div>
       </div>
     </div>
