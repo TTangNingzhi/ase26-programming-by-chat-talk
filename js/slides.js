@@ -10,11 +10,19 @@
   let current = 0;
 
   // ---- scale the 1600 × 900 stage to the space next to the rail
+  // phones (same query as slides.css): no rail; portrait fits width, landscape fills the screen
+  const PHONE = matchMedia('(max-width: 820px), (max-height: 500px)');
+  const PORTRAIT = matchMedia('(orientation: portrait)');
   function fit() {
-    const gutter = document.body.classList.contains('no-rail') ? 0 : 28;
-    const w = deck.clientWidth - gutter * 2;
-    const h = deck.clientHeight - gutter * 2;
-    const s = Math.min(w / 1600, h / 900);
+    let s;
+    if (PHONE.matches && PORTRAIT.matches) {
+      s = (deck.clientWidth - 2 * 13) / 1600; // 12px slide padding + 1px frame border
+    } else {
+      const gutter = PHONE.matches || document.body.classList.contains('no-rail') ? 0 : 28;
+      const w = deck.clientWidth - gutter * 2;
+      const h = deck.clientHeight - gutter * 2;
+      s = Math.min(w / 1600, h / 900);
+    }
     document.documentElement.style.setProperty('--s', s.toFixed(4));
   }
 
@@ -87,8 +95,12 @@
     e.preventDefault();
   });
 
+  // mobile browsers fire resize when the toolbar hides; only re-anchor on a real width change
+  let lastW = innerWidth;
   window.addEventListener('resize', () => {
     fit();
+    if (innerWidth === lastW && PHONE.matches) return;
+    lastW = innerWidth;
     go(current, false);
   });
 

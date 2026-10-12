@@ -459,6 +459,39 @@ body.no-rail .stage { border-color: transparent; border-radius: 0; }
   to { opacity: 1; transform: none; }
 }
 
+/* ------------------------------------------------------------ phone */
+
+/* Phones: no outline rail; the slides fill the screen width. Keep this query
+   in sync with PHONE in slides.js. */
+@media (max-width: 820px), (max-height: 500px) {
+  body, body.no-rail { grid-template-columns: minmax(0, 1fr); }
+  .rail { display: none; }
+  .deck { height: 100vh; height: 100dvh; }
+}
+
+/* portrait: a scrolling feed of slide cards */
+@media (max-width: 820px) and (orientation: portrait) {
+  .deck {
+    scroll-snap-type: y proximity;
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  }
+  .slide { height: auto; padding: 6px 12px; scroll-snap-align: center; scroll-snap-stop: normal; }
+  .frame {
+    box-sizing: content-box;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(12, 35, 64, 0.08);
+  }
+  .stage { border: 0; border-radius: 0; }
+}
+
+/* landscape: one full-screen slide at a time */
+@media (max-height: 500px) and (orientation: landscape) {
+  .slide { height: 100vh; height: 100dvh; }
+  .stage { border: 0; border-radius: 0; }
+}
+
 /* ------------------------------------------------------------ print / PDF */
 
 @media print {
