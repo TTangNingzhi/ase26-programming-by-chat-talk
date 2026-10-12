@@ -785,12 +785,10 @@ b.hi { color: #b4413a !important; }
 .job-kw { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; margin-top: 10px; }
 .job-kw span { padding: 3px 12px; border-radius: 999px; background: var(--warm-light); font-size: 16px; color: var(--ink-2); }
 
-.c-right { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.c-right { display: flex; flex-direction: column; gap: 22px; min-height: 0; justify-content: center; }
 .c-links { display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: var(--mono); font-size: 16px; }
 .c-links a { color: var(--ink-2); text-decoration: none; }
 .c-links i { width: 22px; margin-right: 6px; color: var(--ink); }
-.c-fig { position: relative; flex: 1; min-height: 0; margin: 0; }
-.c-fig img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 
 .c-bottom {
   display: grid;
@@ -889,3 +887,9 @@ b.hi { color: #b4413a !important; }
 .s-f1 .chat .bubble { border-radius: 16px 16px 4px 16px; }
 .s-f1 .chat .note { margin: -2px 6px 4px 0; }
 .s-f1 .chat.terse { justify-content: flex-start; }
+.c-take { display: flex; flex-direction: column; gap: 14px; }
+.c-take .tk-h { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--nd-blue-bright); }
+.c-take .tk { display: flex; gap: 14px; align-items: flex-start; font-size: 21px; line-height: 1.4; color: var(--ink-2); }
+.c-take .tk b { color: var(--nd-blue); }
+.c-take .tk .n { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 1px; border-radius: 50%; background: var(--nd-blue); color: #fff; font-size: 15px; font-weight: 700; }
+.intent.tight { padding-top: 0; padding-bottom: 0; line-height: 1.25; }

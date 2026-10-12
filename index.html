@@ -718,20 +718,16 @@ The login button should redirect to /dashboard after auth
 </section>
 
 <!-- ============================================================ FINDINGS 10–11 -->
-<section class="slide" data-title="Resets and Drift" data-group="RQ2 · Sessions">
+<section class="slide" data-title="Resets and Shifts" data-group="RQ2 · Sessions">
 <div class="frame"><div class="stage">
   <div class="eyebrow"><span class="rq">RQ2</span>Findings 10 – 11</div>
-  <h2 class="title">Resets across sessions, drift within them</h2>
+  <h2 class="title">Resets across sessions, shifts within them</h2>
 
   <div class="body row s-f1011">
     <div class="card grow fcol" data-r>
       <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-rotate"></i></div><div><div class="fnum">Finding 10 · Across sessions</div><h3>New session, same task</h3></div></div>
-      <p class="small">Across session boundaries, every self-loop lift stays above 1 (1.19–20.77): <b>task-level intent is preserved</b>. But context-dependent intents reset:</p>
-      <div class="tbl">
-        <div class="t-h"><span></span><span>within</span><span>across</span></div>
-        <div class="t-row"><i class="intent">Confirmation</i><b>6.08</b><b class="down">≈ 0</b></div>
-        <div class="t-row"><i class="intent">Error Persistence</i><b>5.19</b><b class="down">1.19</b></div>
-      </div>
+      <p class="small">Across session boundaries, the same intents carry over: <b>task-level intent is preserved</b>.</p>
+      <p class="small">But context-dependent intents reset: a new session almost never opens with <i class="intent tight">Confirmation</i> (<span class="q">works</span>) or <i class="intent tight">Error Persistence</i> (<span class="q">still not working</span>), because there is no prior AI output to react to.</p>
       <p class="take">Developers start new sessions to <b>refresh accumulated context</b> rather than to switch tasks.</p>
     </div>
 
@@ -745,54 +741,6 @@ The login button should redirect to /dashboard after auth
         <div class="t-row"><i class="intent">Alignment Correction</i><b>0.73%</b><b>8.40%</b></div>
       </div>
       <p class="take">Then sessions grow reactive: <b>Inquiry</b> and <b>Context Specification</b> decline, while <b>Failure Reporting</b> and <b>Delegation</b> increase.</p>
-    </div>
-  </div>
-
-  <div class="foot"><span class="pg"></span></div>
-</div></div>
-</section>
-
-<!-- ============================================================ IMPLICATIONS -->
-<section class="slide" data-title="Implications" data-group="Wrap-up">
-<div class="frame"><div class="stage">
-  <div class="eyebrow">Discussion</div>
-  <h2 class="title">What this means for coding agents</h2>
-
-  <div class="body s-impl">
-    <div class="impl" data-r>
-      <div class="impl-l"><span class="num">1</span><div><h3>Progressive specification</h3><p class="note">Findings 1, 9, 11</p></div></div>
-      <div class="impl-r">
-        <p>Benchmarks like SWE-bench assume a <b>complete, self-contained task description</b>. Agents must also tolerate ambiguity, track evolving intent, and surface missing constraints.</p>
-        <p class="note">Spec-driven development (GitHub Spec Kit, Amazon Kiro) formalizes what developers already do organically, raising a three-way alignment problem.</p>
-      </div>
-      <div class="impl-v v-spec">
-        <span class="nd"><i class="fa-solid fa-lightbulb"></i>intent</span><i class="fa-solid fa-arrows-left-right ar"></i>
-        <span class="nd"><i class="fa-solid fa-file-lines"></i>document</span><i class="fa-solid fa-arrows-left-right ar"></i>
-        <span class="nd"><i class="fa-solid fa-code"></i>code</span>
-      </div>
-    </div>
-    <div class="impl" data-r style="--d:1">
-      <div class="impl-l"><span class="num">2</span><div><h3>Redistributed cognition</h3><p class="note">Findings 2, 3, 4</p></div></div>
-      <div class="impl-r">
-        <p>When diagnosis, comprehension, and validation are all delegated to the same system, the agent may become <b>the only judge of both what the code does and whether it is correct</b>.</p>
-      </div>
-      <div class="impl-v v-judge">
-        <div class="tasks"><span>diagnose</span><span>comprehend</span><span>validate</span></div>
-        <i class="fa-solid fa-arrow-right ar"></i>
-        <span class="agent"><i class="fa-solid fa-robot"></i></span>
-      </div>
-    </div>
-    <div class="impl" data-r style="--d:2">
-      <div class="impl-l"><span class="num">3</span><div><h3>Managing an opaque collaborator</h3><p class="note">Findings 5, 6, 10</p></div></div>
-      <div class="impl-r">
-        <p>File reads, commands, edits, and long responses accumulate in a single stream, so developers <b>rely on the agent's self-report</b>. This coordination burden grows as agents take on longer task horizons.</p>
-      </div>
-      <div class="impl-v v-stream">
-        <span><i class="fa-solid fa-magnifying-glass"></i> Read 6 files</span>
-        <span><i class="fa-solid fa-terminal"></i> Ran 4 commands</span>
-        <span><i class="fa-solid fa-align-left"></i> 1,200-word response</span>
-        <span class="more">…</span>
-      </div>
     </div>
   </div>
 
@@ -890,9 +838,13 @@ The login button should redirect to /dashboard after auth
         <a href="https://github.com/ND-SaNDwichLAB/empirical-conversational-programming"><i class="fa-brands fa-github"></i> ND-SaNDwichLAB/empirical-conversational-programming</a>
         <a href="https://conversational-programming-clusters.netlify.app/"><i class="fa-solid fa-chart-simple"></i> conversational-programming-clusters.netlify.app</a>
       </div>
-      <figure class="c-fig">
-        <img src="figures/paper/illustrative-session.svg" alt="Illustrative session annotated with behavioral intent labels">
-      </figure>
+      <div class="c-take">
+        <div class="tk-h">Takeaways</div>
+        <div class="tk"><span class="n">1</span><div><b>Progressive specification:</b> developers refine step by step, not specify upfront</div></div>
+        <div class="tk"><span class="n">2</span><div><b>Redistributed cognition:</b> diagnosis, comprehension, and validation are delegated to the agent</div></div>
+        <div class="tk"><span class="n">3</span><div><b>Active but opaque management:</b> developers steer the agent, yet its behavior is hard to see</div></div>
+        <div class="tk"><span class="n">4</span><div><b>Task continuity:</b> the same task persists across turns and sessions</div></div>
+      </div>
     </div>
   </div>
 
