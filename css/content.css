@@ -202,7 +202,7 @@
 
 .src-rows > div {
   display: grid;
-  grid-template-columns: 34px 160px 1fr;
+  grid-template-columns: 34px 180px 1fr;
   align-items: baseline;
   font-size: 22px;
   line-height: 1.4;
@@ -867,7 +867,7 @@ b.hi { color: #b4413a !important; }
 .s-f56 .spectrum .stops > div { align-items: flex-end; gap: 4px; }
 .s-f56 .spectrum .bubble { max-width: 100%; padding: 8px 14px; border-radius: 16px 16px 4px 16px; background: var(--sky-light); color: var(--nd-blue-medium); font-size: 20px; }
 .s-f56 .spectrum .note { font-size: 16px; }
-.s-f56 .card:first-child { gap: 22px; }
+.s-f56 .card:first-child { gap: 15px; }
 .s-f56 .card:first-child .fg { gap: 10px; }
 .s-f56 .card:first-child .chat .bubble { font-size: 21px; }
 .docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }

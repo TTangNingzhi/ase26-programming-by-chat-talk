@@ -67,7 +67,7 @@
 <div class="frame"><div class="stage">
   <div class="eyebrow">Motivation</div>
   <h2 class="title">From autocomplete to conversational programming in the IDE</h2>
-  <p class="lead">IDE-integrated assistants such as <b><img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot</b> and <b><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor</b> have evolved beyond autocomplete into <b>multi-turn conversational systems</b>.</p>
+  <p class="lead">AI coding assistants such as <b><img class="tool" src="figures/logos/github-copilot.svg" alt="">GitHub Copilot</b> and <b><img class="tool" src="figures/logos/cursor.svg" alt="">Cursor</b> have evolved well beyond early code completion.</p>
 
   <div class="body row s-motivation">
     <div class="col grow">
@@ -104,7 +104,7 @@
         <span class="pill"><i class="fa-solid fa-terminal"></i> terminal execution</span>
         <span class="pill"><i class="fa-solid fa-gauge-high"></i> runtime inspection</span>
       </div>
-      <p class="say" data-r style="--d:2">Rather than writing code directly, developers increasingly <span class="mark">express intent and iteratively steer AI-generated outputs through dialogue</span>.</p>
+      <p class="say" data-r style="--d:2">Developers increasingly <span class="mark">express intent and iteratively steer AI-generated outputs through dialogue</span>.</p>
     </div>
 
     <div class="col side">
@@ -132,7 +132,7 @@
 <section class="slide" data-title="The Evidence Gap" data-group="Introduction">
 <div class="frame"><div class="stage">
   <div class="eyebrow">The gap</div>
-  <h2 class="title">How do developers <em>actually</em> converse with coding agents?</h2>
+  <h2 class="title">How do developers <em>actually</em> chat with coding agents?</h2>
   <p class="lead">Despite widespread adoption, empirical evidence is constrained in two complementary ways.</p>
 
   <div class="body row s-gap">
@@ -140,13 +140,14 @@
       <div class="card" data-r>
         <h3><span class="num">1</span> Lacking either scale or ecological validity</h3>
         <div class="src-rows">
-          <div><i class="fa-brands fa-youtube"></i><b>Video studies</b><span>Performative setting, audience effects; the largest covers only <b>254 prompts</b></span></div>
-          <div><i class="fa-solid fa-flask"></i><b>User studies</b><span>Researcher-defined tasks on unfamiliar codebases</span></div>
+          <div><i class="fa-brands fa-youtube"></i><b>Video analysis</b><span>Performative setting, audience effects; the largest covers only <b>254 prompts</b></span></div>
+          <div><i class="fa-solid fa-flask"></i><b>Lab studies</b><span>Researcher-defined tasks on unfamiliar codebases</span></div>
           <div><i class="fa-solid fa-comments"></i><b>Interviews</b><span>Recall and self-presentation bias</span></div>
         </div>
+        <p class="note">Small-scale and not reflective of developers' daily workflows.</p>
       </div>
       <div class="card" data-r style="--d:1">
-        <h3><span class="num gold">2</span> Large-scale, but browser-based chat</h3>
+        <h3><span class="num gold">2</span> Large-scale, but ChatGPT in the browser</h3>
         <div class="src-rows">
           <div><i class="fa-solid fa-link"></i><b>DevGPT</b><span>Developer-shared ChatGPT links from GitHub</span></div>
           <div><i class="fa-solid fa-message"></i><b>CodeChat</b><span>Developer-LLM conversations from WildChat</span></div>
@@ -166,7 +167,7 @@
           <div class="t">11,579 real-world<br>agentic sessions,<br>in the wild</div>
         </div>
         <div class="cell"></div>
-        <div class="cell"><span class="dot">Video studies</span><span class="dot">User studies</span><span class="dot">Interviews</span></div>
+        <div class="cell"><span class="dot">Video analysis</span><span class="dot">Lab studies</span><span class="dot">Interviews</span></div>
       </div>
     </div>
   </div>
@@ -308,8 +309,8 @@ The login button should redirect to /dashboard after auth
 <section class="slide" data-title="Methodology" data-group="RQ1 · Intents">
 <div class="frame"><div class="stage">
   <div class="eyebrow"><span class="rq">RQ1</span>Method</div>
-  <h2 class="title">Labeling what each message <em>does</em>, not what it is about</h2>
-  <p class="lead">Drawing on Speech Act Theory, we label each message by its <b>illocutionary act</b> (e.g., requesting, asserting, directing), with <b>multiple labels</b> allowed.</p>
+  <h2 class="title">Multi-label taxonomy of what each prompt <em>does</em></h2>
+  <p class="lead">Drawing on <b>Speech Act Theory</b>, we label each message by its illocutionary act (e.g., requesting, asserting, directing), with <b>multiple labels</b> allowed.</p>
 
   <div class="body s-m1">
     <div class="example" data-r>
@@ -412,7 +413,7 @@ The login button should redirect to /dashboard after auth
         <div class="cat-h"><span class="i">7</span>Workflow Control<span class="p">11.47%</span></div>
         <div class="def">Manage session pace, direction, or state without new technical content</div>
         <ul class="two">
-          <li><span>Confirmation <i class="ex">“works”</i></span><div class="bar"><i style="--w:10.7%"></i></div><b>2.65</b></li>
+          <li><span>Confirmation <i class="ex">“ok”</i></span><div class="bar"><i style="--w:10.7%"></i></div><b>2.65</b></li>
           <li><span>Continuation <i class="ex">“continue”</i></span><div class="bar"><i style="--w:22.3%"></i></div><b>5.54</b></li>
           <li><span>Deferred Debugging <i class="ex">“fix it”</i></span><div class="bar"><i style="--w:3.0%"></i></div><b>0.74</b></li>
           <li><span>Deferred Implementation <i class="ex">“edit it”</i></span><div class="bar"><i style="--w:3.1%"></i></div><b>0.78</b></li>
@@ -440,7 +441,7 @@ The login button should redirect to /dashboard after auth
         <div class="hbar"><span>Iterative Modification</span><div class="bar"><i style="--w:100%"></i></div><b>24.84%</b></div>
         <div class="hbar"><span>Alignment Correction</span><div class="bar"><i style="--w:29%"></i></div><b>7.21%</b></div>
         <div class="hbar"><span>New Implementation</span><div class="bar gold"><i style="--w:23.6%"></i></div><b>5.86%</b></div>
-        <p class="small">Correction turns stay minimal, relying on accumulated context:</p>
+        <p class="small">Alignment-correction messages are short and rely on accumulated context:</p>
         <div class="chat terse"><div class="bubble">sans tiret</div><div class="bubble">Nope, still gray.</div></div>
         <p class="note co">Alignment Correction co-occurs with Iterative Modification in <b>43.02%</b> of cases.</p>
       </div>
@@ -540,14 +541,14 @@ The login button should redirect to /dashboard after auth
 
   <div class="body row s-f56">
     <div class="card grow fcol" data-r>
-      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-file-lines"></i></div><div><div class="fnum">Finding 5 · Documentation · 6.85%</div><h3>Docs as persistent external memory</h3></div></div>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-file-lines"></i></div><div><div class="fnum">Finding 5 · Documentation · 6.85%</div><h3>Docs as developer–agent interaction surface</h3></div></div>
       <div class="docs">
         <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>TODO.md</div><div class="db"><span class="ok">[x]</span> login flow<br><span>[ ]</span> dashboard filters<br><span>[ ]</span> CSV export</div></div>
         <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>PROGRESS.md</div><div class="db"><span class="h">## Done</span><br>auth + session store<br><span class="h">## Next</span><br>wire up API</div></div>
         <div class="doc"><div class="dn"><i class="fa-regular fa-file-lines"></i>architecture.md</div><div class="db"><span class="h">## Modules</span><br>api/ · ui/ · db/<br><span class="h">## Rules</span><br>no direct DB in ui/</div></div>
       </div>
       <div class="fg">
-        <div class="glab"><i class="fa-solid fa-compass"></i>Guide implementation</div>
+        <div class="glab"><i class="fa-solid fa-compass"></i>Plan for implementation</div>
         <div class="chat"><div class="bubble">read <code>architecture.md</code> for context then fully implement</div></div>
       </div>
       <div class="fg">
@@ -561,7 +562,7 @@ The login button should redirect to /dashboard after auth
     </div>
 
     <div class="card grow fcol" data-r style="--d:1">
-      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-sliders"></i></div><div><div class="fnum">Finding 6 · Context Specification</div><h3>Shaping context, negotiating autonomy</h3></div></div>
+      <div class="fhead"><div class="icon-badge"><i class="fa-solid fa-sliders"></i></div><div><div class="fnum">Finding 6 · Context Specification</div><h3>Shaping context, constraining behavior</h3></div></div>
       <div class="fg">
         <div class="glab">Information Injection<b>8.46%</b></div>
         <div class="chat"><div class="bubble">see the attached <code>openapi.yaml</code></div></div>
@@ -660,7 +661,7 @@ The login button should redirect to /dashboard after auth
   <div class="live-head">
     <div>
       <div class="eyebrow"><span class="rq">RQ2</span>Interactive</div>
-      <h2 class="title">Every point is a real session</h2>
+      <h2 class="title">t-SNE projection: every point is a real session</h2>
     </div>
     <a class="live-url" href="https://conversational-programming-clusters.netlify.app/" target="_blank" rel="noopener">
       <i class="fa-solid fa-arrow-up-right-from-square"></i> conversational-programming-clusters.netlify.app
